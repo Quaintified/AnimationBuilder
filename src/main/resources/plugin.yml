@@ -1,0 +1,13 @@
+name: AnimationBuilder
+version: '${version}'
+main: com.dndcraft.quaint.AnimationBuilder
+
+commands:
+  save-animation:
+    aliases:
+      - animsave
+    permission: animationbuilder.save
+  load-animation:
+    aliases:
+      - animload
+    permission: animationbuilder.load

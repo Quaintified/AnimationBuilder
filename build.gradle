@@ -1,0 +1,75 @@
+plugins {
+    id 'java'
+    id "com.github.johnrengelman.shadow" version "7.1.1"
+    id "net.kyori.blossom" version "1.2.0"
+}
+
+group = 'com.dndcraft.quaint'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven {
+        name = 'papermc-repo'
+        url = 'https://repo.papermc.io/repository/maven-public/'
+    }
+    maven {
+        name = 'sonatype'
+        url = 'https://oss.sonatype.org/content/groups/public/'
+    }
+    maven {
+        name = 'sona-snaps'
+        url = 'https://oss.sonatype.org/content/repositories/snapshots'
+    }
+    maven {
+        name = 'GitHub Packages'
+        url = 'https://maven.pkg.github.com/dndcraftrepo'
+    }
+    maven {
+        url = 'https://repo.extendedclip.com/content/repositories/placeholderapi/'
+    }
+    maven {
+        name = 'jitpack'
+        url = 'https://jitpack.io'
+    }
+}
+
+dependencies {
+    compileOnly 'io.papermc.paper:paper-api:1.18.2-R0.1-SNAPSHOT'
+
+    compileOnly("org.projectlombok:lombok:1.18.24")
+    annotationProcessor("org.projectlombok:lombok:1.18.24")
+
+    compileOnly 'me.clip:placeholderapi:2.11.1'
+    // https://mvnrepository.com/artifact/com.google.re2j/re2j
+    implementation shadow('com.google.re2j:re2j:1.6')
+    // https://mvnrepository.com/artifact/org.mongodb/mongo-java-driver
+    implementation 'org.mongodb:mongo-java-driver:3.12.11'
+    annotationProcessor('org.mongodb:mongo-java-driver:3.12.11')
+    implementation shadow('org.projectlombok:lombok:1.18.24')
+    annotationProcessor('org.projectlombok:lombok:1.18.24')
+    implementation shadow("com.github.simplix-softworks:SimplixStorage:3.2.5")
+
+    compileOnly files("./libs/Animatronics.jar")
+}
+
+blossom {
+    replaceToken '${version}', project.version, 'src/main/resources/plugin.yml'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+jar.enabled = false
+shadowJar {
+    relocate 'com.github.stefvanschie.inventoryframework', 'com.dndcraft.quaint.crpified.inventoryframework'
+
+    destinationDirectory  = file("$rootDir/build/libs")
+    archiveClassifier.set('')
+}
+
+artifacts {
+    archives shadowJar
+}
